@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Vlast</title>
+  <style>
+    /* Общие стили */
+    body {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 100vh;
+      background: linear-gradient(to bottom right, #1E90FF, #8B008B);
+      background-size: 400% 400%;
+      animation: gradient 10s ease infinite;
+    }
+
+    @keyframes gradient {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    /* Остальные стили */
+    .blur-square {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 300px;
+      background-color: rgba(50, 50, 50, 0.9);
+      border-radius: 20px;
+      backdrop-filter: blur(100px);
+    }
+
+    .discord-container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .additional-text {
+      position: absolute;
+      top: 60%;
+      left: 20%;
+      color: #fff;
+      font-size: 30px;
+      font-family: Arial, sans-serif;
+      z-index: 2;
+    }
+
+    .discord-button {
+      margin-top: 150px;
+      margin-left: 250px;
+      padding: 15px 20px;
+      font-size: 18px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+    }
+
+    .discord-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+      border-color: #ff0000;
+      animation: rainbow 2s linear infinite;
+    }
+
+    @keyframes rainbow {
+      0%, 100% {
+        border-color: #ff0000;
+      }
+
+      16% {
+        border-color: #ff7f00;
+      }
+
+      32% {
+        border-color: #ffff00;
+      }
+
+      48% {
+        border-color: #00ff00;
+      }
+
+      64% {
+        border-color: #0000ff;
+      }
+
+      80% {
+        border-color: #4b0082;
+      }
+
+      100% {
+        border-color: #8f00ff;
+      }
+    }
+
+    img {
+      position: fixed;
+      top: 55%;
+      left: 33%;
+      width: 100px;
+      border-radius: 10px;
+      z-index: 2;
+      max-width: 100%;
+    }
+
+    .additional-img {
+      position: fixed;
+      top: 40%;
+      left: 46.35%;
+      width: 100px;
+      border-radius: 4px;
+      z-index: 2;
+      transform: scale(5);
+      clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%);
+      max-width: 100%;
+    }
+
+    .discord-widget {
+      position: fixed;
+      top: 50%;
+      left: 15%;
+      transform: translate(-50%, -50%);
+      width: 350px;
+      height: 500px;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .member-count {
+      color: #fff;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+      position: absolute;
+      top: 65%;
+      left: 42.5%;
+      z-index: 2
+    }
+
+    .online-count {
+      color: #fff;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+      position: absolute;
+      top: 60%;
+      left: 42.5%;
+      z-index: 2
+    }
+
+    .member-count,
+    .online-count {
+      position: absolute;
+      color: #fff;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+      z-index: 2;
+    }
+
+    .member-count::before,
+    .online-count::before {
+      content: "\2022";
+      margin-right: 8px;
+      font-size: 25px;
+    }
+
+    .online-count::before {
+      color: lightgrey;
+    }
+
+    .member-count::before {
+      color: limegreen;
+    }
+
+    /* Обновленные стили для различных размеров экрана */
+    @media only screen and (max-width: 768px) {
+      .blur-square {
+        width: 80vw;
+        height: 30vh;
+      }
+
+      .discord-widget {
+        width: 80vw;
+        height: 60vh;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .discord-button {
+        margin-top: 5vh;
+        margin-left: 2vw;
+      }
+
+      img,
+      .additional-img,
+      .discord-widget {
+        width: 80vw;
+        height: auto;
+      }
+    }
+
+    @media only screen and (max-width: 480px) {
+      .blur-square {
+        width: 90vw;
+        height: 30vh;
+      }
+
+      .discord-widget {
+        left: 60%;
+        width: 80vw;
+      }
+
+      img,
+      .additional-img,
+      .discord-widget {
+        width: 90vw;
+        height: auto;
+      }
+    }
+
+    @media only screen and (max-width: 375px) {
+      .blur-square {
+        width: 90vw;
+        height: 20vh;
+      }
+
+      .discord-widget {
+        left: 50%;
+        width: 90vw;
+        height: 50vh;
+        transform: translateX(-50%);
+      }
+
+      .discord-button {
+        margin-top: 5vh;
+        margin-left: 2vw;
+        font-size: 14px;
+      }
+
+      img,
+      .additional-img,
+      .discord-widget {
+        width: 90vw;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+
+<link rel="icon" href="image1.png" type="image/png">
+
+<body>
+  <div class="member-count" id="memberCount"><span id="online-members">Загрузка...</span> в сети</div>
+  <div class="online-count" id="onlineCount">60 участников</div>
+
+  <div class="overlay"></div>
+  <div class="blur-square"></div>
+  <div class="discord-container">
+    <div class="additional-text">Vlast</div>
+    <a href="https://discord.gg/WJuvadt9y8" target="_blank" class="discord-button">Присоединиться</a>
+  </div>
+  <iframe class="discord-widget" src="https://discord.com/widget?id=1132605119993753650&theme=dark" width="350"
+    height="500" allowtransparency="true" frameborder="0"
+    sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+  <img src="image1.png" alt="Image 1">
+  <img class="additional-img" src="image2.png" alt="Image 2">
+
+  <script>
+  </style>
+</head>
+
+<body>
+  <div class="member-count" id="memberCount"><span id="online-members">Загрузка...</span> в сети</div>
+  <div class="online-count" id="onlineCount">60 участников</div>
+
+  <div class="overlay"></div>
+  <div class="blur-square"></div>
+  <div class="discord-container">
+    <div class="additional-text">Vlast</div>
+    <a href="https://discord.gg/WJuvadt9y8" target="_blank" class="discord-button">Присоединиться</a>
+  </div>
+  <iframe class="discord-widget" src="https://discord.com/widget?id=1132605119993753650&theme=dark" width="350"
+    height="500" allowtransparency="true" frameborder="0"
+    sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+  <img src="image1.png" alt="Image 1">
+  <img class="additional-img" src="image2.png" alt="Image 2">
+
+  <script>
+    const DISCORD_API_URL = 'https://discord.com/api/guilds/1132605119993753650/widget.json';
+
+    async function updateMembersCount() {
+      try {
+        const response = await fetch(DISCORD_API_URL);
+        const data = await response.json();
+
+        const onlineMembers = data.presence_count;
+        const allMembers = data.members.length;
+
+        document.getElementById('online-members').innerText = onlineMembers;
+        document.getElementById('all-members').innerText = allMembers;
+      } catch (error) {
+        console.error('Ошибка при получении данных с сервера Discord:', error);
+      }
+    }
+
+    setInterval(updateMembersCount, 60000);
+
+    updateMembersCount();
+  </script>
+
+</body>
+
+</html>
